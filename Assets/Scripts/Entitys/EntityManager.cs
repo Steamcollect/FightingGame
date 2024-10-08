@@ -11,19 +11,27 @@ public class EntityManager : MonoBehaviour
     [Header("RSE")]
     [SerializeField] RSE_SendAction rse_SendActions;
 
-    void SetTurn()
+    void GetAllActions()
     {
-        entitys = entitys.OrderBy(t => t.GetEntityPriority()).ToList();
-
         foreach (var entity in entitys)
         {
             entity.DoActions();
         }
     }
 
+    void UseAction()
+    {
+        entitysActions = entitysActions.OrderBy(t => t.entity.GetEntityPriority()).ToList();
+    }
+
     public void AddEntityAction(EntityAction entityAction)
     {
         entitysActions.Add(entityAction);
+
+        if(entitysActions.Count >=  entitys.Count) 
+        {
+            UseAction();
+        }
     }
 
     private void OnEnable()
